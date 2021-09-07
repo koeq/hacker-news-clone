@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
-import Api from "./components/utils/api";
+import Posts from "./components/posts";
 
 function App() {
   return (
     <div className="App">
       <h1>Hacker News Posts</h1>
-      <Api></Api>
+      <Posts />
     </div>
   );
 }
