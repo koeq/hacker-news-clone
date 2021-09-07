@@ -16,7 +16,32 @@ body,
   padding: 20px;
 }
 
-.posts {
-  margin: 15px 0 0 0;
+.text-light {
+  color: rgba(0, 0, 0, 0.9);
+}
+.post {
+  display: flex;
+
+  margin: 15px 0 0 0px;
   list-style: none;
+}
+
+.title-number {
+  font-size: 13px;
+  margin-right: 10px;
+}
+.title {
+  font-size: 14px;
+  font-weight: 600;
+}
+.title a {
+  text-decoration: none;
+}
+
+.sub {
+  font-size: 13px;
+}
+
+.sub span {
+  margin-right: 3px;
 }
