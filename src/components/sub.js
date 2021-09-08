@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { fetchItem } from "./utils/api";
 
-export default function Sub({ user, time, commentsNumber }) {
+export default function Sub({ user, time, commentsNumber, handleUser }) {
   const date = new Date(time * 1000).toLocaleString();
-
   return (
     <div className="sub text-light">
       <span>by</span>
-      <span onClick={fetchItem}>{user}</span>
+      <span className="pointer" onClick={() => handleUser(user)}>
+        {user}
+      </span>
       <span>on</span>
       <span>{date}</span>
       <span>with</span>

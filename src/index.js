@@ -6,6 +6,11 @@ import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
+    <h1
+      style={{ paddingLeft: "40px", paddingTop: "20px", paddingBottom: "20px" }}
+    >
+      Hacker News
+    </h1>
     <App />
   </React.StrictMode>,
   document.getElementById("root")

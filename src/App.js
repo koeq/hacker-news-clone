@@ -1,18 +1,26 @@
 import React from "react";
 import "./App.css";
 import Posts from "./components/posts";
+import User from "./components/user";
 import { removeDeletedPosts, fetchPosts } from "./components/utils/api";
 
 export default class App extends React.Component {
-  state = {
-    error: null,
-    isLoaded: false,
-    posts: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      isLoaded: false,
+      posts: null,
+      user: null,
+      comments: null
+    };
+
+    this.handleUser = this.handleUser.bind(this);
+  }
 
   // new, top and best
   componentDidMount() {
-    fetchPosts("top").then(posts => {
+    fetchPosts("new").then(posts => {
       this.setState({
         isLoaded: true,
         posts: posts
@@ -20,21 +28,40 @@ export default class App extends React.Component {
     });
   }
 
+  handleUser(userName) {
+    this.setState({
+      posts: null,
+      comments: null,
+      user: userName
+    });
+  }
+
   render() {
-    // console.log(this.state)
-    const { error, isLoaded, posts } = this.state;
-    
+    const { error, isLoaded, posts, user } = this.state;
+
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return <div>loading...</div>;
-    } else {
-      console.log(posts);
+      return (
+        <>
+          <div className="loading-container">
+            <div className="loading"></div>
+          </div>
+        </>
+      );
+    } else if (posts) {
+      // console.log(posts);
       // remove deleted posts from list
       removeDeletedPosts(posts);
       return (
         <div className="App">
-          <Posts posts={posts} />
+          <Posts posts={posts} handleUser={this.handleUser} />
+        </div>
+      );
+    } else if (user) {
+      return (
+        <div className="App">
+          <User user={user} />
         </div>
       );
     }

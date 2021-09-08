@@ -1,7 +1,7 @@
 const api = "https://hacker-news.firebaseio.com/v0";
 const json = ".json?print=pretty";
 
-// removes null values form posts array -> probably deleted posts 
+// removes null values form posts array -> probably deleted posts
 export function removeDeletedPosts(posts) {
   posts.forEach((post, index) => {
     if (post === null) {
@@ -13,9 +13,14 @@ export function removeDeletedPosts(posts) {
   });
 }
 
-// fetch post arcording to id
+// fetch post by id
 export function fetchItem(id) {
   return fetch(`${api}/item/${id}/${json}`).then(res => res.json());
+}
+
+// fetch user by name
+export function fetchUser(user) {
+  return fetch(`${api}/user/${user}/${json}`).then(res => res.json());
 }
 // fetch 50 posts -> kind of posts: new, top, best
 export function fetchPosts(kindOf) {
