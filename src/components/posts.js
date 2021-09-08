@@ -1,41 +1,14 @@
 import React from "react";
-import { fetchPosts } from "./utils/api";
 import Sub from "./sub";
 
 export default class Posts extends React.Component {
-  state = {
-    error: null,
-    isLoaded: false,
-    posts: []
-  };
-
-  // new, top and best
-  componentDidMount() {
-    fetchPosts("top").then(posts => {
-      this.setState({
-        isLoaded: true,
-        posts: posts
-      });
-    });
-  }
-
   // format of posts -> [{by, descendants, id, kids, score, time, title, type, url}, {...}]
   render() {
-    const { error, isLoaded, posts } = this.state;
+    const { posts } = this.props;
 
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>loading...</div>;
-    } else {
-      // remove deleted posts from list
-      posts.forEach((post, index) => {
-        if (post === null) {
-          console.log(`A deleted post was removed on place ${index + 1}`);
-          posts.splice(index, 1);
-        }
-      });
-      return (
+    return (
+      <>
+        <h1>Hacker News Posts</h1>
         <ul>
           {posts.map((post, index) => {
             return (
@@ -63,7 +36,7 @@ export default class Posts extends React.Component {
             );
           })}
         </ul>
-      );
-    }
+      </>
+    );
   }
 }

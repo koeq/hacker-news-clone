@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { fetchItem } from "./utils/api";
 
 export default function Sub({ user, time, commentsNumber }) {
   const date = new Date(time * 1000).toLocaleString();
@@ -6,7 +8,7 @@ export default function Sub({ user, time, commentsNumber }) {
   return (
     <div className="sub text-light">
       <span>by</span>
-      <span>{user}</span>
+      <span onClick={fetchItem}>{user}</span>
       <span>on</span>
       <span>{date}</span>
       <span>with</span>
@@ -16,5 +18,8 @@ export default function Sub({ user, time, commentsNumber }) {
   );
 }
 
-// TO DO:
-// handle case where posts got deleted -> value is null
+Sub.propTypes = {
+  user: PropTypes.string.isRequired,
+  time: PropTypes.number.isRequired,
+  commentsNumber: PropTypes.number.isRequired
+};
