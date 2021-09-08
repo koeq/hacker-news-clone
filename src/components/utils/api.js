@@ -1,7 +1,6 @@
 const api = "https://hacker-news.firebaseio.com/v0";
 const json = ".json?print=pretty";
 
-
 // // remove deleted posts
 // function removeDeleted(posts) {
 // posts.filter(({deleted}) => deleted === false)
@@ -10,8 +9,6 @@ const json = ".json?print=pretty";
 // function removeDead(posts) {
 //   posts.filter(({dead}) => dead === false)
 // }
-
-
 
 // fetch post arcording to id
 function fetchItem(id) {
@@ -26,7 +23,7 @@ export function fetchPosts(kindOf) {
         throw new Error(`There was an error fetching the ${kindOf} posts`);
       }
 
-      return ids.slice(0, 50);
+      return ids.slice(0, 100);
     })
     .then(ids => Promise.all(ids.map(id => fetchItem(id))));
 }

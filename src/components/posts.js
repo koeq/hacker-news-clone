@@ -22,19 +22,26 @@ export default class Posts extends React.Component {
   // format of posts -> [{by, descendants, id, kids, score, time, title, type, url}, {...}]
   render() {
     const { error, isLoaded, posts } = this.state;
-    console.log(posts);
 
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>loading...</div>;
     } else {
+      // remove deleted posts from list
+      posts.forEach((post, index) => {
+        if (post === null) {
+          console.log(`A deleted post was removed on place ${index + 1}`);
+          posts.splice(index, 1);
+        }
+      });
       return (
         <ul>
           {posts.map((post, index) => {
             return (
               <li className="post" key={post.id}>
                 <span className="title-number">{index + 1}.</span>
+
                 <div className="post-container">
                   <h4 className="title">
                     <a
@@ -46,8 +53,11 @@ export default class Posts extends React.Component {
                       {post.title}
                     </a>
                   </h4>
-                  <Sub user={post.by} time={post.time} commentsNumber={post.kids ? post.kids.length : 0}
-                   />
+                  <Sub
+                    user={post.by}
+                    time={post.time}
+                    commentsNumber={post.kids ? post.kids.length : 0}
+                  />
                 </div>
               </li>
             );
