@@ -22,6 +22,23 @@ export function fetchItem(id) {
 export function fetchUser(user) {
   return fetch(`${api}/user/${user}/${json}`).then(res => res.json());
 }
+
+export function fetchUserPosts(userItems) {
+  // limit number of items
+  userItems = userItems.slice(0, 100);
+  // use user items to fetch data
+
+  return Promise.all(
+    userItems.map(item => {
+      return fetch(`${api}/item/${item}/${json}`).then(res => res.json());
+    })
+  );
+}
+
+export function onlyStories(arr) {
+  return arr.filter(({ type }) => type === "story");
+}
+
 // fetch 50 posts -> kind of posts: new, top, best
 export function fetchPosts(kindOf) {
   return fetch(`${api}/${kindOf}stories/${json}`)
