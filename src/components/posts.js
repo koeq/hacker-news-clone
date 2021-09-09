@@ -5,6 +5,8 @@ export default class Posts extends React.Component {
   // format of posts -> [{by, descendants, id, kids, score, time, title, type, url}, {...}]
   render() {
     const { posts, handleUser, handleComments } = this.props;
+    
+  
 
     return (
       <ul>
@@ -25,6 +27,7 @@ export default class Posts extends React.Component {
                   </a>
                 </h4>
                 <Sub
+                  comments = {post.kids}
                   user={post.by}
                   time={post.time}
                   commentsNumber={post.kids ? post.kids.length : 0}

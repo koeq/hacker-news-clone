@@ -14,8 +14,8 @@ export function removeNull(posts) {
   return posts;
 }
 
-export function removeDeleted (posts) {
-  return posts.filter(({ deleted }) => deleted !== true)
+export function removeDeleted(posts) {
+  return posts.filter(({ deleted }) => deleted !== true);
 }
 
 // fetch post by id
@@ -74,4 +74,24 @@ export function fetchPosts(kindOf) {
       return ids.slice(0, 50);
     })
     .then(ids => Promise.all(ids.map(id => fetchItem(id))));
+}
+
+export async function fetchComment(id) {
+  try {
+    const response = await fetch(`${api}/item/${id}/${json}`);
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function fetchAllComments(commentIds) {
+  commentIds = limitTo(100, commentIds);
+
+  try {
+    const response = commentIds.map(id => fetchComment(id));
+    return await Promise.all(response);
+  } catch (err) {
+    console.log(err);
+  }
 }

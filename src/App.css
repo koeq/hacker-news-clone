@@ -52,7 +52,16 @@ body,
 .sub span {
   margin-right: 3px;
 }
+ul {
+  list-style: none;
+}
+.comment {
+  margin-bottom: 15px;
+}
 
+a {
+  color: #000;
+}
 /* laoding animation */
 .loading-container {
   width: 100%;

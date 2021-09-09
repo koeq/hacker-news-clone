@@ -6,9 +6,11 @@ export default function Sub({
   time,
   commentsNumber,
   handleUser,
-  handleComments
+  handleComments,
+  comments
 }) {
   const date = new Date(time * 1000).toLocaleString();
+
   return (
     <div className="sub text-light">
       <span>by</span>
@@ -23,7 +25,7 @@ export default function Sub({
       <span>{date}</span>
       <span>with</span>
       <span
-        onClick={() => handleComments()}
+        onClick={() => handleComments(comments)}
         style={{ textDecoration: "underline" }}
         className="pointer"
       >

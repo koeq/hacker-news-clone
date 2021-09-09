@@ -22,7 +22,7 @@ export default class App extends React.Component {
 
   // new, top and best
   componentDidMount() {
-    fetchPosts("new").then(posts => {
+    fetchPosts("top").then(posts => {
       this.setState({
         isLoaded: true,
         posts: posts
@@ -38,10 +38,10 @@ export default class App extends React.Component {
     });
   }
 
-  handleComments() {
+  handleComments(comments) {
     this.setState({
       posts: null,
-      comments: true,
+      comments: comments,
       user: null
     });
   }
@@ -84,7 +84,11 @@ export default class App extends React.Component {
     } else if (comments) {
       return (
         <div className="App">
-          <Comments />
+          <Comments
+            handleUser={this.handleUser}
+            handleComments={this.handleComments}
+            comments={comments}
+          />
         </div>
       );
     }
