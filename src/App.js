@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Posts from "./components/posts";
 import User from "./components/user";
+import Comments from "./components/comments";
 import { removeNull, fetchPosts, removeDeleted } from "./components/utils/api";
 
 export default class App extends React.Component {
@@ -16,6 +17,7 @@ export default class App extends React.Component {
     };
 
     this.handleUser = this.handleUser.bind(this);
+    this.handleComments = this.handleComments.bind(this);
   }
 
   // new, top and best
@@ -36,8 +38,16 @@ export default class App extends React.Component {
     });
   }
 
+  handleComments() {
+    this.setState({
+      posts: null,
+      comments: true,
+      user: null
+    });
+  }
+
   render() {
-    const { error, isLoaded, posts, user } = this.state;
+    const { error, isLoaded, posts, user, comments } = this.state;
 
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -54,13 +64,27 @@ export default class App extends React.Component {
 
       return (
         <div className="App">
-          <Posts posts={posts} handleUser={this.handleUser} />
+          <Posts
+            posts={posts}
+            handleUser={this.handleUser}
+            handleComments={this.handleComments}
+          />
         </div>
       );
     } else if (user) {
       return (
         <div className="App">
-          <User user={user} />
+          <User
+            user={user}
+            handleUser={this.handleUser}
+            handleComments={this.handleComments}
+          />
+        </div>
+      );
+    } else if (comments) {
+      return (
+        <div className="App">
+          <Comments />
         </div>
       );
     }

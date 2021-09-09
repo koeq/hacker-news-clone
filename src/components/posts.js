@@ -4,7 +4,7 @@ import Sub from "./sub";
 export default class Posts extends React.Component {
   // format of posts -> [{by, descendants, id, kids, score, time, title, type, url}, {...}]
   render() {
-    const { posts, handleUser } = this.props;
+    const { posts, handleUser, handleComments } = this.props;
 
     return (
       <ul>
@@ -29,6 +29,7 @@ export default class Posts extends React.Component {
                   time={post.time}
                   commentsNumber={post.kids ? post.kids.length : 0}
                   handleUser={handleUser}
+                  handleComments={handleComments}
                 />
               </div>
             </li>
