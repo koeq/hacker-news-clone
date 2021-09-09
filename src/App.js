@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import Posts from "./components/posts";
 import User from "./components/user";
-import { removeDeletedPosts, fetchPosts } from "./components/utils/api";
+import { removeNull, fetchPosts, removeDeleted } from "./components/utils/api";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -48,9 +48,10 @@ export default class App extends React.Component {
         </div>
       );
     } else if (posts) {
-      // console.log(posts);
       // remove deleted posts from list
-      removeDeletedPosts(posts);
+      removeNull(posts);
+      removeDeleted(posts);
+
       return (
         <div className="App">
           <Posts posts={posts} handleUser={this.handleUser} />
