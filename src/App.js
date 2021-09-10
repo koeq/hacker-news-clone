@@ -3,6 +3,7 @@ import "./App.css";
 import Posts from "./components/posts";
 import User from "./components/user";
 import Comments from "./components/comments";
+import Nav from "./components/nav";
 import { removeNull, fetchPosts, removeDeleted } from "./components/utils/api";
 
 export default class App extends React.Component {
@@ -11,21 +12,43 @@ export default class App extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
+
       posts: null,
       user: null,
-      comments: null
+      comments: null,
+      kindOfPosts: "new"
     };
 
     this.handleUser = this.handleUser.bind(this);
     this.handleComments = this.handleComments.bind(this);
+    this.handleCategory = this.handleCategory.bind(this);
   }
 
   // new, top and best
   componentDidMount() {
-    fetchPosts("top").then(posts => {
+    fetchPosts(this.state.kindOfPosts, this.state.amount).then(posts => {
       this.setState({
         isLoaded: true,
         posts: posts
+      });
+    });
+  }
+
+  handleAmountChange(event) {
+    this.setState({
+      amount: Number(event.target.value)
+    });
+  }
+
+  handleCategory(category) {
+    this.setState({
+      isLoaded: false
+    });
+    fetchPosts(category).then(posts => {
+      this.setState({
+        isLoaded: true,
+        posts: posts,
+        kindOfPosts: category
       });
     });
   }
@@ -46,9 +69,8 @@ export default class App extends React.Component {
     });
   }
 
-  render() {
+  renderAppContent() {
     const { error, isLoaded, posts, user, comments } = this.state;
-
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -63,34 +85,43 @@ export default class App extends React.Component {
       removeDeleted(posts);
 
       return (
-        <div className="App">
-          <Posts
-            posts={posts}
-            handleUser={this.handleUser}
-            handleComments={this.handleComments}
-          />
-        </div>
+        <Posts
+          posts={posts}
+          handleUser={this.handleUser}
+          handleComments={this.handleComments}
+        />
       );
     } else if (user) {
       return (
-        <div className="App">
-          <User
-            user={user}
-            handleUser={this.handleUser}
-            handleComments={this.handleComments}
-          />
-        </div>
+        <User
+          user={user}
+          handleUser={this.handleUser}
+          handleComments={this.handleComments}
+        />
       );
     } else if (comments) {
       return (
-        <div className="App">
-          <Comments
-            handleUser={this.handleUser}
-            handleComments={this.handleComments}
-            comments={comments}
-          />
-        </div>
+        <Comments
+          handleUser={this.handleUser}
+          handleComments={this.handleComments}
+          comments={comments}
+        />
       );
     }
+  }
+
+  render() {
+    const { kindOfPosts } = this.state;
+    return (
+      <div className="App">
+        <Nav
+          activeCategory={kindOfPosts}
+          handleCategory={this.handleCategory}
+          posts={this.state.posts}
+          amount={this.state.amount}
+        ></Nav>
+        {this.renderAppContent()}
+      </div>
+    );
   }
 }

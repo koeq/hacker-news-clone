@@ -59,7 +59,12 @@ export async function fetchUserPosts(userItems) {
 }
 
 export function onlyStories(arr) {
-  return arr.filter(({ type }) => type === "story");
+  return arr.filter(entry => {
+    if (entry.type) {
+      return entry.type === "story";
+    }
+    return false;
+  });
 }
 
 // fetch 50 posts -> kind of posts: new, top, best
@@ -71,7 +76,7 @@ export function fetchPosts(kindOf) {
         throw new Error(`There was an error fetching the ${kindOf} posts`);
       }
 
-      return ids.slice(0, 50);
+      return ids.slice(0, 100);
     })
     .then(ids => Promise.all(ids.map(id => fetchItem(id))));
 }
