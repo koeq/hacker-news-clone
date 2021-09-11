@@ -12,39 +12,52 @@ export default class App extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-
-      posts: null,
+      posts: [],
       user: null,
       comments: null,
-      kindOfPosts: "new"
+      kindOfPosts: "new",
+      selectedAmount: 50
     };
 
     this.handleUser = this.handleUser.bind(this);
     this.handleComments = this.handleComments.bind(this);
     this.handleCategory = this.handleCategory.bind(this);
+    this.handleAmount = this.handleAmount.bind(this);
   }
 
   // new, top and best
   componentDidMount() {
-    fetchPosts(this.state.kindOfPosts, this.state.amount).then(posts => {
-      this.setState({
-        isLoaded: true,
-        posts: posts
-      });
-    });
+    fetchPosts(this.state.kindOfPosts, this.state.selectedAmount).then(
+      posts => {
+        this.setState({
+          isLoaded: true,
+          posts: posts
+        });
+      }
+    );
   }
 
-  handleAmountChange(event) {
-    this.setState({
-      amount: Number(event.target.value)
-    });
+  handleAmount(event) {
+    if (this.state.posts) {
+      this.setState({
+        selectedAmount: Number(event.target.value),
+        isLoaded: false
+      });
+
+      fetchPosts(this.state.kindOfPosts, event.target.value).then(posts => {
+        this.setState({
+          isLoaded: true,
+          posts: posts
+        });
+      });
+    }
   }
 
   handleCategory(category) {
     this.setState({
       isLoaded: false
     });
-    fetchPosts(category).then(posts => {
+    fetchPosts(category, this.state.selectedAmount).then(posts => {
       this.setState({
         isLoaded: true,
         posts: posts,
@@ -118,7 +131,8 @@ export default class App extends React.Component {
           activeCategory={kindOfPosts}
           handleCategory={this.handleCategory}
           posts={this.state.posts}
-          amount={this.state.amount}
+          selectedAmount={this.state.selectedAmount}
+          handleAmount={this.handleAmount}
         ></Nav>
         {this.renderAppContent()}
       </div>

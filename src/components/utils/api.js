@@ -38,13 +38,13 @@ export async function fetchUser(user) {
   }
 }
 
-function limitTo(number, userItems) {
-  return userItems.slice(0, number);
+function limitTo( userItems, amount) {
+  return userItems.slice(0, amount);
 }
 
 export async function fetchUserPosts(userItems) {
   // limit number of items
-  userItems = limitTo(100, userItems);
+  userItems = limitTo( userItems);
 
   try {
     const response = userItems.map(async item => {
@@ -68,7 +68,7 @@ export function onlyStories(arr) {
 }
 
 // fetch 50 posts -> kind of posts: new, top, best
-export function fetchPosts(kindOf) {
+export function fetchPosts(kindOf,amount) {
   return fetch(`${api}/${kindOf}stories/${json}`)
     .then(res => res.json())
     .then(ids => {
@@ -76,7 +76,7 @@ export function fetchPosts(kindOf) {
         throw new Error(`There was an error fetching the ${kindOf} posts`);
       }
 
-      return ids.slice(0, 100);
+      return limitTo( ids, amount)
     })
     .then(ids => Promise.all(ids.map(id => fetchItem(id))));
 }
@@ -91,7 +91,7 @@ export async function fetchComment(id) {
 }
 
 export async function fetchAllComments(commentIds) {
-  commentIds = limitTo(100, commentIds);
+  commentIds = limitTo( commentIds);
 
   try {
     const response = commentIds.map(id => fetchComment(id));

@@ -26,15 +26,28 @@ body,
   text-decoration: underline;
 }
 
+.deactivated {
+  display: none;
+}
+.nav-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .categories {
   display: flex;
-  margin-top: 20px;
 }
 .category {
   margin-right: 20px;
   cursor: pointer;
 }
-
+select {
+  background: #2f2e32;
+  color: #c1c1c2;
+  border: none;
+  border-radius: 5px;
+}
 .active-category {
   text-decoration: underline;
 }
