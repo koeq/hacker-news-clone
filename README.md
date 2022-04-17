@@ -20,7 +20,7 @@
 
  The name stands for it self! A simple project that tried to replicate the basic functionality of the news page Hacker News. 
  <br/>
- The Project utilizes the Hacker News API. That means lots and lots of AJAX requests.
+ The Project utilizes the Hacker News API. 
   <br/>
 
 
